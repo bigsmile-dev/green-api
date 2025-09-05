@@ -12,42 +12,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Explicit static file routes with correct MIME types
-app.get('/styles.css', (req, res) => {
-    const filePath = path.join(__dirname, 'styles.css');
-    console.log(`Serving CSS from: ${filePath}`);
-    res.setHeader('Content-Type', 'text/css');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error('Error serving CSS:', err);
-            res.status(404).send('CSS file not found');
-        }
-    });
-});
-
-app.get('/script.js', (req, res) => {
-    const filePath = path.join(__dirname, 'script.js');
-    console.log(`Serving JS from: ${filePath}`);
-    res.setHeader('Content-Type', 'application/javascript');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error('Error serving JS:', err);
-            res.status(404).send('JS file not found');
-        }
-    });
-});
-
-// Fallback static middleware for other files
-app.use(express.static(path.join(__dirname, '.'), {
-    setHeaders: (res, path) => {
-        if (path.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        } else if (path.endsWith('.js')) {
-            res.setHeader('Content-Type', 'application/javascript');
-        }
-    }
-}));
-
 // Базовый URL GREEN-API
 const GREEN_API_BASE_URL = 'https://api.green-api.com';
 
@@ -132,10 +96,7 @@ app.post('/api/green-api/:idInstance/:method/:apiToken', async (req, res) => {
     }
 });
 
-// Обслуживать главную страницу
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Main page is handled by Vercel static routing
 
 
 
