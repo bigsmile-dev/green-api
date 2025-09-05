@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN API © 2025</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">GREEN API © 2025</div>
+        </div>
+
+        <div class="content">
+            <div class="left-panel">
+                <div class="input-group">
+                    <input type="text" id="idInstance" class="input-field" placeholder="Введите ваш idInstance (например, 1101234567)" value="">
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="apiTokenInstance" class="input-field" placeholder="Введите ваш ApiTokenInstance" value="">
+                </div>
+
+                <button class="method-button" onclick="getSettings()">Получить настройки</button>
+                
+                <button class="method-button" onclick="getStateInstance()">Статус инстанса</button>
+
+                <div class="input-group">
+                    <label class="input-label">Номер телефона (международный формат)</label>
+                    <input type="text" id="phoneNumber" class="input-field" placeholder="например, 77771234567 или +7 777 123 45 67" value="">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Текст сообщения</label>
+                    <input type="text" id="messageText" class="input-field" placeholder="Введите ваше сообщение" value="">
+                </div>
+
+                <button class="method-button" onclick="sendMessage()">Отправить сообщение</button>
+
+                <div class="input-group">
+                    <label class="input-label">Номер телефона (международный формат)</label>
+                    <input type="text" id="phoneNumberFile" class="input-field" placeholder="например, 77771234567 или +7 777 123 45 67" value="">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">URL файла</label>
+                    <input type="text" id="fileUrl" class="input-field" placeholder="https://example.com/image.png" value="">
+                    <small class="input-help">Должна быть прямая ссылка на файл</small>
+                </div>
+
+                <button class="method-button" onclick="sendFileByUrl()">Отправить файл</button>
+            </div>
+
+            <div class="right-panel">
+                <div class="response-label">Ответ:</div>
+                <textarea id="responseArea" class="response-area" readonly placeholder="Ответы API будут отображаться здесь..."></textarea>
+            </div>
+        </div>
+
+        <div class="footer">
+            GREEN API © 2025
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
