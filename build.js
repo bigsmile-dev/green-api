@@ -13,6 +13,7 @@ const filesToCopy = [
     'server.js',
     'script.js', 
     'index.html',
+    'index-inline.html',
     'styles.css',
     'package.json',
     'README.md',

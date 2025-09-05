@@ -135,9 +135,19 @@ app.get('/favicon.ico', (req, res) => {
     res.status(204).end(); // No content
 });
 
-// Serve main page
+// Serve main page - use inline version if available (for Vercel), fallback to regular
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    const inlineHtmlPath = path.join(__dirname, 'index-inline.html');
+    const regularHtmlPath = path.join(__dirname, 'index.html');
+    
+    // Check if inline version exists (built for production)
+    if (require('fs').existsSync(inlineHtmlPath)) {
+        console.log('Serving inline HTML version');
+        res.sendFile(inlineHtmlPath);
+    } else {
+        console.log('Serving regular HTML version');
+        res.sendFile(regularHtmlPath);
+    }
 });
 
 

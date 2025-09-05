@@ -13,6 +13,9 @@ yarn-error.log
 dist/
 build/
 
+# Ignore generated inline HTML
+index-inline.html
+
 # Ignoring OS-specific files
 .DS_Store
 Thumbs.db
