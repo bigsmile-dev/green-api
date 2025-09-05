@@ -12,7 +12,30 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Static files middleware for local development
+// Explicit static file routes with proper MIME types
+app.get('/styles.css', (req, res) => {
+    const filePath = path.join(__dirname, 'styles.css');
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('CSS file not found:', err);
+            res.status(404).send('CSS file not found');
+        }
+    });
+});
+
+app.get('/script.js', (req, res) => {
+    const filePath = path.join(__dirname, 'script.js');
+    res.setHeader('Content-Type', 'application/javascript');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('JS file not found:', err);
+            res.status(404).send('JS file not found');
+        }
+    });
+});
+
+// Static files middleware for other files
 app.use(express.static(path.join(__dirname, '.'), {
     setHeaders: (res, path) => {
         if (path.endsWith('.css')) {
@@ -107,7 +130,12 @@ app.post('/api/green-api/:idInstance/:method/:apiToken', async (req, res) => {
     }
 });
 
-// Serve main page for local development
+// Handle favicon requests
+app.get('/favicon.ico', (req, res) => {
+    res.status(204).end(); // No content
+});
+
+// Serve main page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -124,11 +152,28 @@ app.get('/debug/files', (req, res) => {
     const fs = require('fs');
     try {
         const files = fs.readdirSync(__dirname);
+        const cssPath = path.join(__dirname, 'styles.css');
+        const jsPath = path.join(__dirname, 'script.js');
+        const htmlPath = path.join(__dirname, 'index.html');
+        
         res.json({ 
             directory: __dirname,
             files: files,
-            cssExists: fs.existsSync(path.join(__dirname, 'styles.css')),
-            jsExists: fs.existsSync(path.join(__dirname, 'script.js'))
+            paths: {
+                css: cssPath,
+                js: jsPath,
+                html: htmlPath
+            },
+            exists: {
+                css: fs.existsSync(cssPath),
+                js: fs.existsSync(jsPath),
+                html: fs.existsSync(htmlPath)
+            },
+            sizes: {
+                css: fs.existsSync(cssPath) ? fs.statSync(cssPath).size : 0,
+                js: fs.existsSync(jsPath) ? fs.statSync(jsPath).size : 0,
+                html: fs.existsSync(htmlPath) ? fs.statSync(htmlPath).size : 0
+            }
         });
     } catch (error) {
         res.status(500).json({ error: error.message });

@@ -4,35 +4,9 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "styles.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "script.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/styles\\.css",
-      "headers": {
-        "Content-Type": "text/css"
-      },
-      "dest": "/styles.css"
-    },
-    {
-      "src": "/script\\.js",
-      "headers": {
-        "Content-Type": "application/javascript"
-      },
-      "dest": "/script.js"
-    },
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
@@ -46,8 +20,8 @@
       "dest": "/server.js"
     },
     {
-      "src": "/",
-      "dest": "/index.html"
+      "src": "/(.*)",
+      "dest": "/server.js"
     }
   ]
 } 
