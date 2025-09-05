@@ -12,6 +12,17 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Static files middleware for local development
+app.use(express.static(path.join(__dirname, '.'), {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        } else if (path.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        }
+    }
+}));
+
 // Базовый URL GREEN-API
 const GREEN_API_BASE_URL = 'https://api.green-api.com';
 
@@ -96,7 +107,10 @@ app.post('/api/green-api/:idInstance/:method/:apiToken', async (req, res) => {
     }
 });
 
-// Main page is handled by Vercel static routing
+// Serve main page for local development
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 
 
