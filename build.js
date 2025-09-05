@@ -1,53 +1,29 @@
 const fs = require('fs');
 const path = require('path');
 
-// Create dist directory if it doesn't exist
-const distDir = path.join(__dirname, 'dist');
-if (fs.existsSync(distDir)) {
-    fs.rmSync(distDir, { recursive: true, force: true });
-}
-fs.mkdirSync(distDir, { recursive: true });
+console.log('🔨 Building inline version for Vercel deployment...');
 
-// Files to copy for deployment
-const filesToCopy = [
-    'server.js',
-    'script.js', 
-    'index.html',
-    'index-inline.html',
-    'styles.css',
-    'package.json',
-    'README.md',
-    'vercel.json'
-];
+// Read the source files
+const htmlContent = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+const cssContent = fs.readFileSync(path.join(__dirname, 'styles.css'), 'utf8');
+const jsContent = fs.readFileSync(path.join(__dirname, 'script.js'), 'utf8');
 
-// Copy files to dist directory
-filesToCopy.forEach(file => {
-    const srcPath = path.join(__dirname, file);
-    const destPath = path.join(distDir, file);
-    
-    if (fs.existsSync(srcPath)) {
-        fs.copyFileSync(srcPath, destPath);
-        console.log(`✓ Copied ${file} to dist/`);
-    } else {
-        console.log(`⚠ Warning: ${file} not found, skipping...`);
-    }
-});
+// Create inline HTML with embedded CSS and JS
+const inlineHtml = htmlContent
+    // Replace CSS link with inline styles
+    .replace(
+        '<link rel="stylesheet" href="styles.css">',
+        `<style>\n${cssContent}\n</style>`
+    )
+    // Replace JS script with inline script
+    .replace(
+        '<script src="script.js"></script>',
+        `<script>\n${jsContent}\n</script>`
+    );
 
-// Create production package.json (remove devDependencies)
-const packageJsonPath = path.join(distDir, 'package.json');
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+// Write the inline version
+fs.writeFileSync(path.join(__dirname, 'index-inline.html'), inlineHtml);
 
-// Remove devDependencies for production
-delete packageJson.devDependencies;
-
-// Update scripts for production
-packageJson.scripts = {
-    "start": "node server.js"
-};
-
-fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
-console.log('✓ Created production package.json');
-
-console.log('\n🎉 Build completed successfully!');
-console.log('📁 Built files are in the dist/ directory');
-console.log('🚀 Ready for deployment!'); 
+console.log('✅ Created index-inline.html with embedded CSS and JS');
+console.log('📁 File size:', Math.round(inlineHtml.length / 1024), 'KB');
+console.log('🚀 Ready for Vercel deployment!'); 

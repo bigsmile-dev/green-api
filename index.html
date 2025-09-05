@@ -4,7 +4,378 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GREEN API © 2025</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 24px;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    gap: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.left-panel {
+    width: 100%;
+    max-width: 380px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px;
+    background: linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+    border-right: 1px solid #dee2e6;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.credentials-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.credentials-section h3 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.help-text {
+    margin: 0;
+    font-size: 13px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.input-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.input-help {
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.input-field {
+    padding: 10px 14px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: white;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.input-field:hover {
+    border-color: #ced4da;
+}
+
+.method-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.method-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+.method-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: white;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.response-label {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.response-area {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    padding: 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%);
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+.response-area:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.footer {
+    text-align: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.loading {
+    color: #666;
+    font-style: italic;
+}
+
+.error {
+    color: #d32f2f;
+}
+
+.success {
+    color: #388e3c;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+    
+    .left-panel {
+        max-width: none;
+        min-width: auto;
+        width: 100%;
+        height: 50vh;
+        padding: 12px;
+        gap: 6px;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        flex-shrink: 0;
+    }
+    
+    .right-panel {
+        padding: 12px;
+        height: 50vh;
+        flex: 1;
+    }
+    
+    .title {
+        font-size: 18px;
+    }
+    
+    .header {
+        padding: 10px 15px;
+    }
+    
+    .method-button {
+        padding: 8px 14px;
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+    
+    .input-group {
+        margin-bottom: 4px;
+        gap: 3px;
+    }
+    
+    .input-field {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .response-area {
+        font-size: 11px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel {
+        padding: 10px;
+        gap: 4px;
+        height: 45vh;
+    }
+    
+    .right-panel {
+        padding: 10px;
+        height: 55vh;
+    }
+    
+    .input-field {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    
+    .method-button {
+        padding: 8px 12px;
+        font-size: 10px;
+        letter-spacing: 0.3px;
+        margin-bottom: 3px;
+    }
+    
+    .title {
+        font-size: 16px;
+    }
+    
+    .header {
+        padding: 8px 12px;
+    }
+    
+    .response-area {
+        padding: 10px;
+        font-size: 10px;
+    }
+    
+    .input-group {
+        margin-bottom: 3px;
+        gap: 2px;
+    }
+    
+    .input-label {
+        font-size: 12px;
+    }
+    
+    .input-help {
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .left-panel {
+        max-width: 450px;
+        padding: 40px;
+    }
+    
+    .right-panel {
+        padding: 40px;
+    }
+    
+    .response-area {
+        min-height: 500px;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+.response-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.response-area::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.response-area::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.response-area::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+} 
+</style>
 </head>
 <body>
     <div class="container">
@@ -63,6 +434,184 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+// Используем локальный бэкенд прокси вместо прямых вызовов GREEN-API
+const BASE_URL = '/api/green-api';
+
+function getInstanceData() {
+    const idInstance = document.getElementById('idInstance').value.trim();
+    const apiTokenInstance = document.getElementById('apiTokenInstance').value.trim();
+    
+    if (!idInstance || !apiTokenInstance) {
+        updateResponse('Ошибка: Пожалуйста, введите idInstance и ApiTokenInstance', 'error');
+        return null;
+    }
+    
+    return { idInstance, apiTokenInstance };
+}
+
+function updateResponse(data, type = 'success') {
+    const responseArea = document.getElementById('responseArea');
+    const timestamp = new Date().toLocaleString();
+    
+    let formattedData;
+    if (typeof data === 'object') {
+        formattedData = JSON.stringify(data, null, 2);
+    } else {
+        formattedData = data;
+    }
+    
+    responseArea.value = `[${timestamp}] ${formattedData}`;
+    responseArea.className = `response-area ${type}`;
+    
+    // Прокрутить к началу области ответа для показа нового содержимого
+    responseArea.scrollTop = 0;
+}
+
+async function makeApiRequest(endpoint, httpMethod = 'GET', requestData = null) {
+    const instanceData = getInstanceData();
+    if (!instanceData) return;
+
+    const { idInstance, apiTokenInstance } = instanceData;
+    const url = `${BASE_URL}/${idInstance}/${endpoint}/${apiTokenInstance}`;
+
+    updateResponse('Загрузка...', 'loading');
+
+    try {
+        const options = {
+            method: 'POST', // Always POST to our backend proxy
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                httpMethod: httpMethod,
+                data: requestData
+            })
+        };
+
+        const response = await fetch(url, options);
+        
+        // Check if response has content and is JSON
+        const contentType = response.headers.get('content-type');
+        let data;
+        
+        if (contentType && contentType.includes('application/json')) {
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                throw new Error(`Failed to parse JSON response: ${jsonError.message}`);
+            }
+        } else {
+            // If not JSON, get text to see what we received
+            const text = await response.text();
+            throw new Error(`Server returned non-JSON response: ${text.substring(0, 200)}`);
+        }
+
+        if (response.ok) {
+            updateResponse(data, 'success');
+        } else {
+            updateResponse(`Ошибка ${response.status}: ${JSON.stringify(data)}`, 'error');
+        }
+    } catch (error) {
+        updateResponse(`Сетевая ошибка: ${error.message}`, 'error');
+    }
+}
+
+async function getSettings() {
+    await makeApiRequest('getSettings', 'GET');
+}
+
+async function getStateInstance() {
+    await makeApiRequest('getStateInstance', 'GET');
+}
+
+function formatPhoneNumber(phone) {
+    // Удалить все не-цифровые символы
+    let cleaned = phone.replace(/\D/g, '');
+    
+    // Если начинается с +, удалить его (уже очищено выше)
+    // Если начинается с 00, удалить это
+    if (cleaned.startsWith('00')) {
+        cleaned = cleaned.substring(2);
+    }
+    
+    // Если не начинается с кода страны, предполагаем что он нужен
+    // Это базовая проверка - возможно потребуется настройка для вашего региона
+    if (cleaned.length === 10) {
+        // Предполагаем номер США, добавляем код страны 1
+        cleaned = '1' + cleaned;
+    }
+    
+    return cleaned;
+}
+
+async function sendMessage() {
+    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+    const messageText = document.getElementById('messageText').value.trim();
+
+    if (!phoneNumber || !messageText) {
+        updateResponse('Ошибка: Пожалуйста, введите номер телефона и текст сообщения', 'error');
+        return;
+    }
+
+    // Форматировать номер телефона
+    const formattedPhone = formatPhoneNumber(phoneNumber);
+    
+    // Проверить формат номера телефона
+    if (!/^\d{10,15}$/.test(formattedPhone)) {
+        updateResponse('Ошибка: Номер телефона должен содержать 10-15 цифр в международном формате (например, 1234567890 для США, 77771234567 для Казахстана)', 'error');
+        return;
+    }
+
+    const requestData = {
+        chatId: `${formattedPhone}@c.us`,
+        message: messageText
+    };
+
+    await makeApiRequest('sendMessage', 'POST', requestData);
+}
+
+async function sendFileByUrl() {
+    const phoneNumber = document.getElementById('phoneNumberFile').value.trim();
+    const fileUrl = document.getElementById('fileUrl').value.trim();
+
+    if (!phoneNumber || !fileUrl) {
+        updateResponse('Ошибка: Пожалуйста, введите номер телефона и URL файла', 'error');
+        return;
+    }
+
+    // Форматировать номер телефона
+    const formattedPhone = formatPhoneNumber(phoneNumber);
+    
+    // Проверить формат номера телефона
+    if (!/^\d{10,15}$/.test(formattedPhone)) {
+        updateResponse('Ошибка: Номер телефона должен содержать 10-15 цифр в международном формате (например, 1234567890 для США, 77771234567 для Казахстана)', 'error');
+        return;
+    }
+
+    // Проверить формат URL
+    if (!fileUrl.startsWith('http://') && !fileUrl.startsWith('https://')) {
+        updateResponse('Ошибка: URL файла должен начинаться с http:// или https://', 'error');
+        return;
+    }
+
+    const requestData = {
+        chatId: `${formattedPhone}@c.us`,
+        urlFile: fileUrl,
+        fileName: 'file.png'
+    };
+
+    await makeApiRequest('sendFileByUrl', 'POST', requestData);
+}
+
+
+
+// Инициализировать с пустой областью ответов
+document.addEventListener('DOMContentLoaded', function() {
+    const responseArea = document.getElementById('responseArea');
+    responseArea.value = '';
+    responseArea.placeholder = 'Ответы API будут отображаться здесь...';
+}); 
+</script>
 </body>
 </html> 
