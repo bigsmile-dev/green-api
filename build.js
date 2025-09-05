@@ -15,7 +15,8 @@ const filesToCopy = [
     'index.html',
     'styles.css',
     'package.json',
-    'README.md'
+    'README.md',
+    'vercel.json'
 ];
 
 // Copy files to dist directory

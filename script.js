@@ -53,7 +53,22 @@ async function makeApiRequest(endpoint, httpMethod = 'GET', requestData = null) 
         };
 
         const response = await fetch(url, options);
-        const data = await response.json();
+        
+        // Check if response has content and is JSON
+        const contentType = response.headers.get('content-type');
+        let data;
+        
+        if (contentType && contentType.includes('application/json')) {
+            try {
+                data = await response.json();
+            } catch (jsonError) {
+                throw new Error(`Failed to parse JSON response: ${jsonError.message}`);
+            }
+        } else {
+            // If not JSON, get text to see what we received
+            const text = await response.text();
+            throw new Error(`Server returned non-JSON response: ${text.substring(0, 200)}`);
+        }
 
         if (response.ok) {
             updateResponse(data, 'success');
